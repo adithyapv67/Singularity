@@ -1,668 +1,584 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Singularity × Australian Rover Challenge</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #030812;
-  --bg-gradient: radial-gradient(circle at 50% 0%, #0a1b38 0%, #030812 70%);
-  --text: #f4f8ff;
-  --muted: #9db0c8;
-  --cyan: #52d8ff;
-  --blue: #5b8cff;
-  --violet: #a66cff;
-  --gold: #f6c667;
-  --red: #ff6b6b;
-  --white: #ffffff;
-  --line: rgba(255, 255, 255, 0.08);
-  --glass: rgba(10, 20, 35, 0.4);
-  --max: 1200px;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body { 
-  background: var(--bg-gradient); 
-  background-color: var(--bg);
-  color: var(--text); 
-  font-family: 'Inter', sans-serif; 
-  line-height: 1.6;
-  overflow-x: hidden;
-}
+  <meta charset="UTF-8" />
+  <title>Singularity · The Astronomical Society of BMSCE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-/* Star background and grid */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 50px 50px;
-  z-index: -1;
-  mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
-}
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
-              radial-gradient(2px 2px at 40px 70px, #ffffff, rgba(0,0,0,0)),
-              radial-gradient(2px 2px at 90px 40px, #ffffff, rgba(0,0,0,0));
-  background-repeat: repeat;
-  background-size: 200px 200px;
-  opacity: 0.3;
-  z-index: -2;
-  animation: stars 100s linear infinite;
-}
-@keyframes stars {
-  from { background-position: 0 0; }
-  to { background-position: -1000px 1000px; }
-}
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
 
-h1, h2, h3, h4, .brand, .eyebrow {
-  font-family: 'Outfit', sans-serif;
-}
-a { color: inherit; text-decoration: none; }
-.wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
-
-/* Navigation */
-nav {
-  position: fixed;
-  top: 0; width: 100%; z-index: 50;
-  background: rgba(3, 8, 18, 0.6);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--line);
-}
-.nav { display: flex; align-items: center; justify-content: space-between; height: 72px; }
-.brand { font-size: 20px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
-.brand span { color: var(--cyan); }
-.links { display: flex; gap: 32px; font-size: 14px; font-weight: 500; color: var(--muted); }
-.links a { transition: color 0.3s ease; }
-.links a:hover { color: var(--text); text-shadow: 0 0 10px rgba(255,255,255,0.3); }
-
-/* Buttons */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  height: 48px; padding: 0 24px;
-  border-radius: 24px; font-size: 14px; font-weight: 600; font-family: 'Outfit', sans-serif;
-  text-transform: uppercase; letter-spacing: 0.1em;
-  cursor: pointer; transition: all 0.3s ease;
-  position: relative; overflow: hidden;
-}
-.btn::before {
-  content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  transition: all 0.5s ease;
-}
-.btn:hover::before { left: 100%; }
-.btn-primary {
-  background: linear-gradient(135deg, var(--cyan), var(--blue));
-  color: #000; border: none;
-  box-shadow: 0 0 20px rgba(82, 216, 255, 0.3);
-}
-.btn-primary:hover { box-shadow: 0 0 30px rgba(82, 216, 255, 0.6); transform: translateY(-2px); }
-.btn-outline {
-  background: transparent; border: 1px solid var(--line); color: var(--text);
-}
-.btn-outline:hover { border-color: var(--cyan); color: var(--cyan); background: rgba(82, 216, 255, 0.05); }
-
-/* Hero Section */
-.hero { min-height: 100vh; display: flex; align-items: center; padding-top: 72px; position: relative; }
-.hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; text-align: center; }
-.hero .eyebrow {
-  display: inline-block; color: var(--cyan); font-size: 14px; font-weight: 600; letter-spacing: 0.3em;
-  margin-bottom: 24px; padding: 6px 16px; border: 1px solid var(--cyan); border-radius: 20px;
-  background: rgba(82, 216, 255, 0.05); text-transform: uppercase;
-}
-.hero h1 {
-  font-size: clamp(40px, 8vw, 80px); line-height: 1.1; font-weight: 900; margin-bottom: 24px; text-transform: uppercase;
-}
-.hero h1 em {
-  font-style: normal; color: transparent; -webkit-text-stroke: 2px var(--text); opacity: 0.7;
-}
-.hero p { font-size: 18px; color: var(--muted); max-width: 600px; margin: 0 auto 40px; }
-.hero .actions { display: flex; gap: 16px; justify-content: center; }
-
-/* Sections */
-section { padding: 100px 0; position: relative; }
-.section-head { text-align: center; margin-bottom: 64px; }
-.section-head .eyebrow { color: var(--cyan); font-size: 14px; font-weight: 600; letter-spacing: 0.2em; margin-bottom: 12px; }
-.section-head h2 { font-size: clamp(32px, 5vw, 48px); font-weight: 800; }
-.section-head p { color: var(--muted); max-width: 600px; margin: 16px auto 0; }
-
-/* Glassmorphism Cards */
-.card {
-  background: var(--glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--line);
-  border-radius: 24px;
-  padding: 32px;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-.card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-.card::before {
-  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
-  pointer-events: none;
-}
-
-/* Grid Layouts */
-.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-
-/* About */
-.about .card h3 { font-size: 24px; margin-bottom: 16px; color: var(--cyan); }
-
-/* Reach Stats */
-.stat-card { text-align: center; padding: 40px 24px; }
-.stat-card b { 
-  display: block; font-size: 48px; font-family: 'Outfit', sans-serif; font-weight: 900; 
-  background: linear-gradient(135deg, #fff, var(--muted)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  margin-bottom: 8px;
-}
-.stat-card span { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cyan); }
-
-/* Packages */
-.packages { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; margin-bottom: 32px; }
-.package {
-  background: var(--glass); border: 1px solid var(--line); border-radius: 16px; padding: 24px 16px;
-  text-align: center; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  position: relative;
-}
-/* Package Colors */
-.package[data-tier="orbital"] { --pkg-color: var(--gold); }
-.package[data-tier="deepspace"] { --pkg-color: var(--blue); }
-.package[data-tier="lunar"] { --pkg-color: var(--cyan); }
-.package[data-tier="asteroid"] { --pkg-color: var(--violet); }
-.package[data-tier="explorer"] { --pkg-color: var(--red); }
-.package[data-tier="supporting"] { --pkg-color: var(--white); }
-
-.package:hover, .package.active {
-  border-color: var(--pkg-color);
-  background: linear-gradient(180deg, rgba(10, 20, 35, 0.6) 0%, rgba(3, 8, 18, 0.8) 100%);
-  transform: translateY(-10px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), inset 0 2px 20px rgba(255,255,255,0.02);
-}
-.package::after {
-  content: ''; position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
-  width: 50%; height: 2px; background: var(--pkg-color); border-radius: 2px;
-  opacity: 0; transition: opacity 0.3s ease;
-  box-shadow: 0 0 10px var(--pkg-color);
-}
-.package:hover::after, .package.active::after { opacity: 1; }
-
-.package .icon { font-size: 24px; margin-bottom: 16px; color: var(--pkg-color); }
-.package h3 { font-size: 16px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; }
-.package .price { font-size: 24px; font-family: 'Outfit', sans-serif; font-weight: 900; color: var(--pkg-color); margin-bottom: 16px; }
-
-.package-detail {
-  background: var(--glass); backdrop-filter: blur(12px); border: 1px solid var(--line); border-radius: 24px; padding: 40px;
-  display: flex; flex-direction: column; gap: 24px; min-height: 200px;
-}
-.detail-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); padding-bottom: 16px; }
-.detail-header h3 { font-size: 28px; }
-.detail-header .price { font-size: 32px; font-weight: 900; }
-.detail-content { font-size: 16px; color: var(--muted); line-height: 1.8; }
-.detail-features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 16px; }
-.detail-features li { list-style: none; display: flex; align-items: center; gap: 12px; }
-.detail-features li::before { content: '✦'; color: var(--cyan); font-size: 12px; }
-
-/* Timeline */
-.timeline { display: flex; flex-direction: column; gap: 16px; }
-.step {
-  display: flex; align-items: center; gap: 32px; padding: 32px;
-  background: var(--glass); border-left: 4px solid var(--cyan); border-radius: 0 24px 24px 0;
-  transition: transform 0.3s ease;
-}
-.step:hover { transform: translateX(10px); background: rgba(255,255,255,0.05); }
-.step .num { font-size: 48px; font-weight: 900; font-family: 'Outfit'; color: transparent; -webkit-text-stroke: 1px var(--line); }
-.step:hover .num { color: var(--cyan); -webkit-text-stroke: 0; }
-.step-content h3 { font-size: 24px; margin-bottom: 8px; }
-.step-content p { color: var(--muted); margin: 0; }
-
-/* Contact */
-.contact-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 32px; }
-.poc-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-.poc-card { background: rgba(0,0,0,0.3); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
-.poc-card strong { display: block; font-family: 'Outfit'; font-size: 18px; margin-bottom: 4px; }
-.poc-card small { color: var(--cyan); font-weight: 600; font-size: 14px; }
-
-/* Footer */
-footer { border-top: 1px solid var(--line); padding: 40px 0; text-align: center; color: var(--muted); font-size: 14px; }
-
-/* Animations */
-.fade-in-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
-.fade-in-up.visible { opacity: 1; transform: translateY(0); }
-
-/* Responsive */
-@media (max-width: 1024px) {
-  .packages { grid-template-columns: repeat(3, 1fr); }
-  .grid-4 { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 768px) {
-  .nav .links { display: none; }
-  .hero h1 { font-size: 48px; }
-  .grid-2, .grid-3, .contact-grid { grid-template-columns: 1fr; }
-  .poc-list { grid-template-columns: 1fr; }
-  .detail-features { grid-template-columns: 1fr; }
-  .step { flex-direction: column; align-items: flex-start; gap: 16px; }
-}
-</style>
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<nav>
-  <div class="wrap nav">
-    <a href="#top" class="brand" style="display: flex; align-items: center; gap: 12px;">
-      Singularity <span>×</span> ARCh
-    </a>
-    <div class="links">
-      <a href="#about">About Us</a>
-      <a href="#reach">Reach</a>
-      <a href="#sponsors">Sponsors</a>
-      <a href="#challenge">Challenge</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </div>
-</nav>
+  <!-- Dynamic Celestial Canvas (Stars, Constellations & Falling Meteors) -->
+  <canvas id="space-canvas"></canvas>
 
-<main id="top">
-  <section class="hero">
-    <div class="wrap hero-content fade-in-up">
-      <div class="eyebrow">BMS College of Engineering · Astronomy Club</div>
-      <h1>From <em>Observation</em><br>To Exploration</h1>
-      <p>Singularity is taking its next giant leap into rover engineering—combining astronomy, robotics, electronics, software and autonomous systems for the Australian Rover Challenge.</p>
-      <div class="actions">
-        <a href="#sponsors" class="btn btn-primary">Sponsorship Prospectus</a>
-        <a href="#about" class="btn btn-outline">Discover Mission</a>
-      </div>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">
+      <a href="#home" class="logo-link">
+        <img src="logo.png" alt="Singularity Logo" class="logo-img" onerror="this.onerror=null;this.src='LOGO.png';" />
+        <span>SINGULARITY</span>
+      </a>
     </div>
-  </section>
+    <ul class="nav-links">
+      <li><a href="#about">About Us</a></li>
+      <li><a href="#reach">Reach</a></li>
+      <li><a href="#technical">Technical Team</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#members">Members</a></li>
+    </ul>
+  </nav>
 
-  <section id="about">
-    <div class="wrap">
-      <div class="section-head fade-in-up">
-        <div class="eyebrow">01 · About Us</div>
-        <h2>Engineering curiosity into capability.</h2>
-      </div>
-      <div class="card fade-in-up" style="margin-bottom: 40px;">
-        <h3 style="font-size: 28px; margin-bottom: 16px; color: var(--cyan);">Singularity</h3>
-        <p class="muted" style="font-size: 16px; line-height: 1.8;">
-          Singularity – The Astronomical Society of BMSCE is a student-driven community that brings together individuals passionate about exploring the universe and pushing the boundaries of science and technology. Our activities span from astronomy and deep-space phenomena to the practical applications of astronomy, robotics, and engineering. We regularly organize large-scale stargazing events, interactive podcasts and panel discussions with ISRO scientists and industry experts, industrial visits, ISRO visits, and engaging astronomy-focused events for the student community.
+  <!-- Hero (Earth, Stars, Constellations, Falling Meteors, Telescope, Rover & Antenna) -->
+  <section id="home" class="hero">
+    <div class="overlay"></div>
+
+    <div class="hero-layout">
+      <!-- Left: Hero Headline & Actions -->
+      <div class="hero-content">
+        <p class="mission">BMS COLLEGE OF ENGINEERING · ASTRONOMY CLUB</p>
+        <h1>FROM <em>OBSERVATION</em><br>TO EXPLORATION</h1>
+        <p class="desc">
+          Singularity is taking its next giant leap into rover engineering, combining astronomy, robotics, electronics, software and autonomous systems.
         </p>
-        <p class="muted" style="font-size: 16px; line-height: 1.8; margin-top: 16px;">
-          Alongside our outreach initiatives, Singularity has a dedicated technical team working on projects involving radio and optical telescopes, antenna design, radio astronomy, and related technologies. Our members actively present research at conferences such as WAMS, GEDS2, ASI, URSI, and IEEE conferences, while participating in technical competitions including SWANOTCH, SWAI, and the IEEE AP-S Student Design Contest. Building on this foundation, we have now ventured into rover engineering, forming Singularity's first dedicated rover team.
-        </p>
+        <div class="hero-btns">
+          <a href="#about" class="btn">DISCOVER MISSION →</a>
+          <a href="#technical" class="btn">OUR TECHNICAL TEAM</a>
+        </div>
+      </div>
+
+      <!-- Right: Interactive Exploration Scene (Telescope, Rover, Antenna) -->
+      <div class="hero-scene" aria-label="Singularity Celestial & Exploration Scene">
+        <div class="scene-instruments">
+          <!-- Antenna (Radio Astronomy & Yagi-Uda) -->
+          <div class="instrument-card" title="Radio Astronomy & Antenna Systems">
+            <svg class="tech-asset asset-antenna" width="130" height="170" viewBox="0 0 160 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Mast & Tripod -->
+              <line x1="80" y1="85" x2="80" y2="195" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="80" y1="135" x2="45" y2="195" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <line x1="80" y1="135" x2="115" y2="195" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <line x1="58" y1="172" x2="102" y2="172" stroke="white" stroke-width="1.2" opacity="0.6"/>
+              <!-- Parabolic Dish Structure -->
+              <g transform="rotate(-32, 80, 80)">
+                <path d="M 32,80 Q 80,102 128,80" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <line x1="32" y1="80" x2="80" y2="40" stroke="white" stroke-width="1.2" opacity="0.7"/>
+                <line x1="128" y1="80" x2="80" y2="40" stroke="white" stroke-width="1.2" opacity="0.7"/>
+                <circle cx="80" cy="40" r="4.5" fill="#52d8ff" stroke="white" stroke-width="1.5"/>
+                <line x1="80" y1="80" x2="80" y2="44" stroke="white" stroke-width="1.8"/>
+                <!-- Yagi director elements -->
+                <line x1="80" y1="80" x2="80" y2="115" stroke="white" stroke-width="2"/>
+                <line x1="68" y1="90" x2="92" y2="90" stroke="white" stroke-width="1.5"/>
+                <line x1="64" y1="100" x2="96" y2="100" stroke="white" stroke-width="1.5"/>
+                <line x1="60" y1="110" x2="100" y2="110" stroke="white" stroke-width="1.5"/>
+              </g>
+              <!-- Concentric Pulsing RF Waves -->
+              <circle class="rf-wave rf-wave-1" cx="62" cy="48" r="12" stroke="#52d8ff" stroke-width="1.5" fill="none"/>
+              <circle class="rf-wave rf-wave-2" cx="62" cy="48" r="22" stroke="#52d8ff" stroke-width="1.2" fill="none"/>
+              <circle class="rf-wave rf-wave-3" cx="62" cy="48" r="32" stroke="#52d8ff" stroke-width="1" stroke-dasharray="3 3" fill="none"/>
+            </svg>
+            <span class="instrument-label">📡 ANTENNA</span>
+          </div>
+
+          <!-- Rover (Planetary Exploration Rover) -->
+          <div class="instrument-card" title="Autonomous Planetary Exploration Rover">
+            <svg class="tech-asset asset-rover" width="180" height="150" viewBox="0 0 220 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Headlight Beam -->
+              <polygon points="160,82 220,65 220,105 160,92" fill="url(#rover-beam)" opacity="0.4"/>
+              <defs>
+                <linearGradient id="rover-beam" x1="160" y1="87" x2="220" y2="87" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#52d8ff" stop-opacity="0.9"/>
+                  <stop offset="100%" stop-color="#52d8ff" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <!-- Rocker-Bogie Suspension Linkages -->
+              <polyline points="45,124 82,92 135,92 175,124" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="82,92 108,124" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="82" cy="92" r="3.5" fill="#000" stroke="white" stroke-width="2"/>
+              <circle cx="135" cy="92" r="3.5" fill="#000" stroke="white" stroke-width="2"/>
+              <!-- 6 Exploration Wheels -->
+              <circle cx="45" cy="126" r="13" fill="#0d1117" stroke="white" stroke-width="2"/>
+              <circle cx="45" cy="126" r="6" stroke="white" stroke-width="1.2" stroke-dasharray="2 2"/>
+              <circle cx="45" cy="126" r="2.5" fill="white"/>
+              <circle cx="108" cy="126" r="13" fill="#0d1117" stroke="white" stroke-width="2"/>
+              <circle cx="108" cy="126" r="6" stroke="white" stroke-width="1.2" stroke-dasharray="2 2"/>
+              <circle cx="108" cy="126" r="2.5" fill="white"/>
+              <circle cx="175" cy="126" r="13" fill="#0d1117" stroke="white" stroke-width="2"/>
+              <circle cx="175" cy="126" r="6" stroke="white" stroke-width="1.2" stroke-dasharray="2 2"/>
+              <circle cx="175" cy="126" r="2.5" fill="white"/>
+              <!-- Chassis & Electronics Body -->
+              <polygon points="68,66 155,66 164,92 64,92" fill="#0d1117" stroke="white" stroke-width="2"/>
+              <!-- Solar Deck -->
+              <rect x="62" y="60" width="100" height="6" rx="1" fill="#161b22" stroke="white" stroke-width="1.5"/>
+              <line x1="86" y1="60" x2="86" y2="66" stroke="white" stroke-width="1"/>
+              <line x1="112" y1="60" x2="112" y2="66" stroke="white" stroke-width="1"/>
+              <line x1="138" y1="60" x2="138" y2="66" stroke="white" stroke-width="1"/>
+              <!-- Rear Dish Antenna -->
+              <line x1="74" y1="60" x2="70" y2="44" stroke="white" stroke-width="1.8"/>
+              <ellipse cx="66" cy="38" rx="9" ry="5.5" transform="rotate(-30, 66, 38)" stroke="white" stroke-width="1.5" fill="#0d1117"/>
+              <line x1="66" y1="38" x2="60" y2="34" stroke="white" stroke-width="1.5"/>
+              <!-- Front Robotic Arm -->
+              <polyline points="156,80 178,80 192,94 204,94" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="178" cy="80" r="2.5" fill="white"/>
+              <circle cx="192" cy="94" r="2.5" fill="white"/>
+              <rect x="202" y="90" width="7" height="7" rx="1" fill="#52d8ff"/>
+              <!-- Remote Sensing Camera Mast -->
+              <line x1="136" y1="60" x2="138" y2="28" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+              <rect x="130" y="20" width="18" height="10" rx="2" fill="#161b22" stroke="white" stroke-width="1.8"/>
+              <circle cx="135" cy="25" r="2.2" fill="#52d8ff"/>
+              <circle cx="143" cy="25" r="2.2" fill="#52d8ff"/>
+            </svg>
+            <span class="instrument-label">🤖 ROVER</span>
+          </div>
+
+          <!-- Telescope (Optical Observatory Telescope) -->
+          <div class="instrument-card" title="Optical Astronomy Observatory Telescope">
+            <svg class="tech-asset asset-telescope" width="130" height="170" viewBox="0 0 160 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Tripod Legs -->
+              <line x1="80" y1="120" x2="32" y2="195" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="80" y1="120" x2="80" y2="198" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+              <line x1="80" y1="120" x2="128" y2="195" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+              <!-- Tripod Spreader Tray -->
+              <line x1="52" y1="162" x2="108" y2="162" stroke="white" stroke-width="1.5" opacity="0.6"/>
+              <!-- Mount & Counterweight -->
+              <circle cx="80" cy="115" r="8" fill="#111" stroke="white" stroke-width="2"/>
+              <line x1="80" y1="115" x2="62" y2="136" stroke="white" stroke-width="2.5"/>
+              <circle cx="60" cy="138" r="5" fill="white"/>
+              <!-- Optical Tube Assembly pointing up at stars -->
+              <g transform="rotate(-38, 80, 105)">
+                <rect x="34" y="96" width="94" height="18" rx="2" fill="#0d1117" stroke="white" stroke-width="2"/>
+                <!-- Dew Shield / Aperture -->
+                <rect x="120" y="93" width="16" height="24" rx="2" fill="#161b22" stroke="white" stroke-width="2"/>
+                <!-- Cyan Lens Glow -->
+                <line x1="136" y1="94" x2="136" y2="116" stroke="#52d8ff" stroke-width="2.5" stroke-linecap="round"/>
+                <!-- Eyepiece / Star Diagonal -->
+                <rect x="24" y="101" width="12" height="8" fill="#161b22" stroke="white" stroke-width="1.5"/>
+                <rect x="19" y="93" width="7" height="16" fill="white"/>
+                <!-- Finderscope -->
+                <rect x="54" y="86" width="34" height="6" rx="1" fill="#0d1117" stroke="white" stroke-width="1.2"/>
+                <line x1="60" y1="92" x2="60" y2="96" stroke="white" stroke-width="1.5"/>
+                <line x1="80" y1="92" x2="80" y2="96" stroke="white" stroke-width="1.5"/>
+              </g>
+              <!-- Starlight Focus Beam -->
+              <line x1="126" y1="62" x2="152" y2="40" stroke="#52d8ff" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.75"/>
+            </svg>
+            <span class="instrument-label">🔭 TELESCOPE</span>
+          </div>
+        </div>
+
+        <!-- Glowing Horizon Ridge -->
+        <div class="scene-ridge"></div>
+      </div>
+    </div>
+
+    <!-- Bottom Stats -->
+    <div class="stats">
+      <div><span>FOUNDED</span><strong>BMSCE</strong></div>
+      <div><span>MEMBERS</span><strong>650+</strong></div>
+      <div><span>COMMUNITY</span><strong>1,000+ IG</strong></div>
+      <div><span>READERS</span><strong>450+ VOYAGER</strong></div>
+    </div>
+  </section>
+
+  <!-- 01 · About Us -->
+  <section id="about" class="section cosmos">
+    <span class="section-tag">01 · About Us</span>
+    <h2>Engineering curiosity into capability.</h2>
+    <p class="section-desc">Singularity</p>
+
+    <div class="about-box">
+      <p>
+        Singularity – The Astronomical Society of BMSCE is a student-driven community that brings together individuals passionate about exploring the universe and pushing the boundaries of science and technology. Our activities span from astronomy and deep-space phenomena to the practical applications of astronomy, robotics, and engineering. We regularly organize large-scale stargazing events, interactive podcasts and panel discussions with ISRO scientists and industry experts, industrial visits, ISRO visits, and engaging astronomy-focused events for the student community.
+      </p>
+      <p>
+        Alongside our outreach initiatives, Singularity has a dedicated technical team working on projects involving radio and optical telescopes, antenna design, radio astronomy, and related technologies. Our members actively present research at conferences such as WAMS, GEDS2, ASI, URSI, and IEEE conferences, while participating in technical competitions including SWANOTCH, SWAI, and the IEEE AP-S Student Design Contest. Building on this foundation, we have now ventured into rover engineering, forming Singularity's first dedicated rover team.
+      </p>
+    </div>
+  </section>
+
+  <!-- 02 · Events & Reach -->
+  <section id="reach" class="section events-horizontal">
+    <span class="section-tag">02 · Events & Reach</span>
+    <h2>A community built to look beyond.</h2>
+    <p class="section-desc">From stargazing to research, from conversations to competitions.</p>
+
+    <!-- Stats -->
+    <div class="reach-stats">
+      <div class="reach-stat-item">
+        <span>Club Members</span>
+        <strong>650+</strong>
+      </div>
+      <div class="reach-stat-item">
+        <span>IG Followers</span>
+        <strong>1,000+</strong>
+      </div>
+      <div class="reach-stat-item">
+        <span>Space Week</span>
+        <strong>560+</strong>
+      </div>
+      <div class="reach-stat-item">
+        <span>Voyager Readers</span>
+        <strong>450+</strong>
+      </div>
+    </div>
+
+    <!-- Horizontal Events Track -->
+    <div class="events-track-wrapper">
+      <div class="events-track">
+        <!-- 1. Space Week -->
+        <div class="event-card">
+          <div class="event-thumb">
+            <img 
+              src="images/page4_img5.jpeg" 
+              alt="Space Week"
+              loading="lazy"
+              onerror="this.onerror=null;this.src='https://adithyapv67.github.io/Singularity/images/page4_img5.jpeg';"
+            />
+          </div>
+          <h4>🪐 Space Week</h4>
+          <p>Our annual flagship week featuring ISRO scientist interactions, expert talks, debates, workshops, games, and astronomy activities. 560+ attendees.</p>
+        </div>
+
+        <!-- 2. UTSAV -->
+        <div class="event-card">
+          <div class="event-thumb">
+            <img 
+              src="images/page4_img6.jpeg" 
+              alt="UTSAV"
+              loading="lazy"
+              onerror="this.onerror=null;this.src='https://adithyapv67.github.io/Singularity/images/page4_img6.jpeg';"
+            />
+          </div>
+          <h4>🎆 UTSAV</h4>
+          <p>We participate in BMSCE's annual techno-cultural fest, Utsav, reaching 2,500+ attendees, with Singularity events attracting 300-400 participants.</p>
+        </div>
+
+        <!-- 3. Cosmo Talks -->
+        <div class="event-card">
+          <div class="event-thumb">
+            <img 
+              src="images/page4_img7.jpeg" 
+              alt="Cosmo Talks"
+              loading="lazy"
+              onerror="this.onerror=null;this.src='https://adithyapv67.github.io/Singularity/images/page4_img7.jpeg';"
+            />
+          </div>
+          <h4>🗣️ Cosmo Talks</h4>
+          <p>Our monthly astronomy and space discussions attract 45-50 students per session, providing consistent scientific engagement throughout the year.</p>
+        </div>
+
+        <!-- 4. Voyager -->
+        <div class="event-card">
+          <div class="event-thumb">
+            <img 
+              src="images/page4_img9.jpeg" 
+              alt="Voyager"
+              loading="lazy"
+              onerror="this.onerror=null;this.src='https://adithyapv67.github.io/Singularity/images/page4_img9.jpeg';"
+            />
+          </div>
+          <h4>📖 Voyager</h4>
+          <p>Our monthly astronomy and space magazine reaches 450-500 readers, providing recurring visibility among students and space enthusiasts.</p>
+        </div>
+
+        <!-- 5. Podcasts & Panels -->
+        <div class="event-card">
+          <div class="event-thumb">
+            <img 
+              src="images/page4_img8.jpeg" 
+              alt="Podcasts & Panels"
+              loading="lazy"
+              onerror="this.onerror=null;this.src='https://adithyapv67.github.io/Singularity/images/page4_img8.jpeg';"
+            />
+          </div>
+          <h4>🎙️ Podcasts & Panels</h4>
+          <p>We host interactive sessions with ISRO scientists, researchers, and space-startup founders, with our annual podcast attracting 250-270 attendees.</p>
+        </div>
+
+        <!-- 6. Conferences & Research -->
+        <div class="event-card">
+          <div class="event-thumb">
+            <img 
+              src="images/page4_img10.jpeg" 
+              alt="Conferences & Research"
+              loading="lazy"
+              onerror="this.onerror=null;this.src='https://adithyapv67.github.io/Singularity/images/page4_img10.jpeg';"
+            />
+          </div>
+          <h4>🔬 Conferences & Research</h4>
+          <p>Our technical team actively conducts research in radio and optical astronomy, presenting papers at URSI, IEEE RAD, ASI, GEDS2, WAMS, and other conferences.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="events-scroll-hint">
+      <div class="dots">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="arrow">→</div>
+    </div>
+  </section>
+
+  <!-- 03 · Technical Team -->
+  <section id="technical" class="section cosmos">
+    <span class="section-tag">03 · Technical Team</span>
+    <h2>Technical Team</h2>
+    <p class="section-desc">Research, competitions and engineering at Singularity.</p>
+
+    <!-- Block 1: Achievements -->
+    <div class="tech-block">
+      <h3 class="tech-block-title">🏆 ACHIEVEMENTS</h3>
+      <div class="tech-grid">
+        <div class="tech-card">
+          <span class="item-tag">Conference Paper</span>
+          <h4>Presented our research paper at WAMS 2025</h4>
+        </div>
+
+        <div class="tech-card">
+          <span class="item-tag">Conference Paper</span>
+          <h4>Presented our research paper at URSI RCRS 2026</h4>
+        </div>
+
+        <div class="tech-card">
+          <span class="item-tag">Conference Paper</span>
+          <h4>Presenting our research paper at GEDS2 2026</h4>
+        </div>
+
+        <div class="tech-card">
+          <span class="item-tag">Conference Paper</span>
+          <h4>Presenting our paper at SURC 2026</h4>
+        </div>
+
+        <div class="tech-card">
+          <span class="item-tag">National Competition · NSSC</span>
+          <h4>Second place in Pitch the Cosmos, National Student Space Competition (NSSC)</h4>
+        </div>
+
+        <div class="tech-card">
+          <span class="item-tag">National Competition · NSSC</span>
+          <h4>Maze Runner finalists, National Student Space Competition (NSSC)</h4>
+        </div>
+
+        <div class="tech-card">
+          <span class="item-tag">Technical Contest</span>
+          <h4>SWANOTCH 2024 finalists</h4>
+        </div>
+
+        <div class="tech-card">
+          <span class="item-tag">Filter Design</span>
+          <h4>Finalists in an international-level filter design competition</h4>
+        </div>
+
+        <div class="tech-card featured">
+          <span class="item-tag">Rover Engineering Domain</span>
+          <h4>Entering a new domain: rover engineering, through International Rover Challenge (IRC) and planetary exploration competitions, by building a new dedicated rover technical team</h4>
+        </div>
+      </div>
+    </div>
+
+    <!-- Block 2: Projects -->
+    <div class="tech-block">
+      <h3 class="tech-block-title">🔭 PROJECTS</h3>
+      <div class="tech-grid">
+        <div class="tech-card">
+          <span class="item-tag">Radio Astronomy · Hardware</span>
+          <h4>H-line radio telescope for Milky Way detection</h4>
+          <p>Custom instrument engineered for 21 cm neutral hydrogen line detection and mapping galactic structure.</p>
+        </div>
+
+        <div class="tech-card">
+          <span class="item-tag">Deep Learning · Astrophysics</span>
+          <h4>Convolutional neural network and simulation-based inference (SBI) for tracing the Milky Way</h4>
+          <p>Advanced neural networks and statistical inference for galactic astrophysics modeling.</p>
+        </div>
+
+        <div class="tech-card">
+          <span class="item-tag">Theoretical Cosmology</span>
+          <h4>Active research on baryon acoustic oscillations (BAO) and trans-Neptunian objects</h4>
+          <p>Investigating large-scale structure formation and distant solar system dynamics.</p>
+        </div>
+
+        <div class="tech-card">
+          <span class="item-tag">Scientific Software</span>
+          <h4>Dedicated research on building an app for simulating astronomical objects such as black holes, the solar system and nebulae</h4>
+          <p>Physics-driven interactive simulation software for celestial mechanics and relativistic objects.</p>
+        </div>
+
+        <div class="tech-card">
+          <span class="item-tag">RF Systems</span>
+          <h4>Meteor detection using a Yagi-Uda antenna</h4>
+          <p>Forward-scatter radar detection system using directional high-gain antenna arrays.</p>
+        </div>
+
+        <div class="tech-card">
+          <span class="item-tag">Terahertz Engineering</span>
+          <h4>Planetary detection using terahertz wave / mm-wave research</h4>
+          <p>High-frequency spectral analysis for atmospheric profiling and planetary signatures.</p>
+        </div>
+
+        <div class="tech-card featured">
+          <span class="item-tag">Rover Engineering</span>
+          <h4>NEW: Rover development for lunar terrains</h4>
+          <p>Dedicated engineering effort developing an autonomous, lunar-capable exploration rover with modular chassis, suspension and navigation systems.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="reach">
-    <div class="wrap">
-      <div class="section-head fade-in-up">
-        <div class="eyebrow">02 · Events & Reach</div>
-        <h2>A community built to look beyond.</h2>
-        <p>From stargazing to research, from conversations to competitions.</p>
-      </div>
-      
-      <div class="grid-4 fade-in-up">
-        <div class="card stat-card"><b>650+</b><span>Club Members</span></div>
-        <div class="card stat-card"><b>1,000+</b><span>IG Followers</span></div>
-        <div class="card stat-card"><b>560+</b><span>Space Week</span></div>
-        <div class="card stat-card"><b>450+</b><span>Voyager Readers</span></div>
-      </div>
-      
-      <div class="grid-3 fade-in-up" style="margin-top: 24px;">
-        <article class="card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
-          <img src="images/page4_img5.jpeg" alt="Space Week" style="width: 100%; height: 200px; object-fit: cover;">
-          <div style="padding: 24px; flex-grow: 1;">
-            <div style="font-size: 24px; margin-bottom: 12px;">🪐</div>
-            <h3 style="color: var(--cyan); margin-bottom: 8px;">Space Week</h3>
-            <p class="muted">Our annual flagship week featuring ISRO scientist interactions, expert talks, debates, workshops, games, and astronomy activities. <strong>560+ attendees</strong>.</p>
-          </div>
-        </article>
-        <article class="card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
-          <img src="images/page4_img6.jpeg" alt="UTSAV" style="width: 100%; height: 200px; object-fit: cover;">
-          <div style="padding: 24px; flex-grow: 1;">
-            <div style="font-size: 24px; margin-bottom: 12px;">🎆</div>
-            <h3 style="color: var(--cyan); margin-bottom: 8px;">UTSAV</h3>
-            <p class="muted">We participate in BMSCE's annual techno-cultural fest, Utsav, reaching 2,500+ attendees, with Singularity events attracting <strong>300-400 participants</strong>.</p>
-          </div>
-        </article>
-        <article class="card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
-          <img src="images/page4_img7.jpeg" alt="Cosmo Talks" style="width: 100%; height: 200px; object-fit: cover;">
-          <div style="padding: 24px; flex-grow: 1;">
-            <div style="font-size: 24px; margin-bottom: 12px;">🗣️</div>
-            <h3 style="color: var(--cyan); margin-bottom: 8px;">Cosmo Talks</h3>
-            <p class="muted">Our monthly astronomy and space discussions attract <strong>45-50 students</strong> per session, providing consistent scientific engagement throughout the year.</p>
-          </div>
-        </article>
-        <article class="card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
-          <img src="images/page4_img9.jpeg" alt="Voyager" style="width: 100%; height: 200px; object-fit: cover;">
-          <div style="padding: 24px; flex-grow: 1;">
-            <div style="font-size: 24px; margin-bottom: 12px;">📖</div>
-            <h3 style="color: var(--cyan); margin-bottom: 8px;">Voyager</h3>
-            <p class="muted">Our monthly astronomy and space magazine reaches <strong>450-500 readers</strong>, providing recurring visibility among students and space enthusiasts.</p>
-          </div>
-        </article>
-        <article class="card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
-          <img src="images/page4_img8.jpeg" alt="Podcasts & Panels" style="width: 100%; height: 200px; object-fit: cover;">
-          <div style="padding: 24px; flex-grow: 1;">
-            <div style="font-size: 24px; margin-bottom: 12px;">🎙️</div>
-            <h3 style="color: var(--cyan); margin-bottom: 8px;">Podcasts & Panels</h3>
-            <p class="muted">We host interactive sessions with ISRO scientists, researchers, and space-startup founders, with our annual podcast attracting <strong>250-270 attendees</strong>.</p>
-          </div>
-        </article>
-        <article class="card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
-          <img src="images/page4_img10.jpeg" alt="Conferences & Research" style="width: 100%; height: 200px; object-fit: cover;">
-          <div style="padding: 24px; flex-grow: 1;">
-            <div style="font-size: 24px; margin-bottom: 12px;">🔬</div>
-            <h3 style="color: var(--cyan); margin-bottom: 8px;">Conferences & Research</h3>
-            <p class="muted">Our technical team actively conducts research in radio and optical astronomy, presenting papers at <strong>URSI, IEEE RAD, ASI, GEDS2, WAMS</strong>, and other conferences.</p>
-          </div>
-        </article>
-      </div>
+  <!-- 04 · Contact (Gmail, LinkedIn, Instagram only) -->
+  <section id="contact" class="section cosmos">
+    <span class="section-tag">04 · Contact</span>
+    <h2>Let's build what explores next.</h2>
+    <p class="section-desc">For technical support, collaboration or partnership enquiries, please reach out to our team.</p>
 
-      <div class="card fade-in-up" style="margin-top: 24px; border-color: rgba(246, 198, 103, 0.4);">
-        <h3 style="font-family: 'Outfit'; font-size: 24px; margin-bottom: 16px; color: var(--gold);">🏆 Achievements</h3>
-        <ul style="color: var(--muted); line-height: 1.8; margin-left: 20px;">
-          <li>Research paper presented at WAMS 2026</li>
-          <li>Paper selected for URSI-GDS</li>
-          <li>Finalist — Spardha 2024 International Filter Design Competition</li>
-          <li>Technical projects in radio telescopes, optical telescopes & antenna design</li>
-        </ul>
-      </div>
-    </div>
-  </section>
+    <div class="contact-wrap">
+      <div class="contact-box">
+        <h3>Get in Touch</h3>
+        <p>Connect with Singularity – The Astronomical Society of BMSCE for research collaborations, outreach events, and technical partnerships.</p>
 
-  <section id="sponsors">
-    <div class="wrap">
-      <div class="section-head fade-in-up">
-        <div class="eyebrow">03 · Partnership Architecture</div>
-        <h2>Sponsorship Packages</h2>
-        <p>Choose your orbit and support the future of space exploration.</p>
-      </div>
-      
-      <div class="packages fade-in-up">
-        <article class="package active" data-tier="orbital" data-name="Orbital Partner" data-price="₹25,00,000" data-desc="The ultimate partnership level offering maximum visibility across all our platforms, events, and the rover itself.">
-          <div class="icon">🪐</div>
-          <h3>Orbital</h3>
-          <div class="price">₹25L</div>
-        </article>
-        <article class="package" data-tier="deepspace" data-name="Deep Space Partner" data-price="₹10,00,000" data-desc="Comprehensive partnership with large branding on the rover and major presence at all events and promotional materials.">
-          <div class="icon">🌌</div>
-          <h3>Deep Space</h3>
-          <div class="price">₹10L</div>
-        </article>
-        <article class="package" data-tier="lunar" data-name="Lunar Partner" data-price="₹5,00,000" data-desc="Significant visibility with medium rover branding, dedicated reels, and segments during our flagship Rover Night.">
-          <div class="icon">🌕</div>
-          <h3>Lunar</h3>
-          <div class="price">₹5L</div>
-        </article>
-        <article class="package" data-tier="asteroid" data-name="Asteroid Partner" data-price="₹2,50,000" data-desc="Valuable partnership with medium branding on the rover, magazine recognition, and event acknowledgements.">
-          <div class="icon">☄️</div>
-          <h3>Asteroid</h3>
-          <div class="price">₹2.5L</div>
-        </article>
-        <article class="package" data-tier="explorer" data-name="Explorer Partner" data-price="₹1,00,000" data-desc="Standard branding on the rover, social media features, and invitations to all major Singularity events.">
-          <div class="icon">🚀</div>
-          <h3>Explorer</h3>
-          <div class="price">₹1L</div>
-        </article>
-        <article class="package" data-tier="supporting" data-name="Supporting Partner" data-price="₹50,000" data-desc="Essential support recognized through social media, promotional materials, and official acknowledgement as a partner.">
-          <div class="icon">⭐</div>
-          <h3>Supporting</h3>
-          <div class="price">₹50K</div>
-        </article>
-      </div>
-
-      <div class="package-detail fade-in-up" id="packageDetail">
-        <!-- Injected via JS -->
-      </div>
-      
-      <div class="card fade-in-up" style="margin-top: 24px; display: flex; align-items: center; gap: 32px;">
-        <div style="font-size: 48px;">🤝</div>
-        <div>
-          <h3 style="font-family: 'Outfit'; font-size: 24px; margin-bottom: 8px;">In-Kind / Non-Monetary Sponsorship</h3>
-          <p class="muted">Support can also be provided through equivalent-value contributions including: Components & Electronics, Mechanical Components, Manufacturing & Fabrication, Machining, Materials, Testing & Prototyping, and other technical resources.</p>
+        <div class="social-links">
+          <a href="mailto:singularity.bmsce@gmail.com" class="social-btn">
+            <span>✉</span> Gmail
+          </a>
+          <a href="https://www.linkedin.com/company/78865505/" target="_blank" rel="noopener noreferrer" class="social-btn">
+            <span>💼</span> LinkedIn
+          </a>
+          <a href="https://www.instagram.com/singularity_bmsce/" target="_blank" rel="noopener noreferrer" class="social-btn">
+            <span>📸</span> Instagram
+          </a>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="challenge">
-    <div class="wrap">
-      <div class="section-head fade-in-up">
-        <div class="eyebrow">04 · The Challenge</div>
-        <h2>Four Days. One Rover. Continuous Adaptation.</h2>
-        <p>Hosted annually by Adelaide University at the Roseworthy Exterres Analogue Facility.</p>
+  <!-- 05 · Members -->
+  <section id="members" class="section cosmos">
+    <span class="section-tag">05 · Members</span>
+    <h2>Meet the Team</h2>
+    <p class="section-desc">The students leading missions, research, and engineering across Singularity.</p>
+
+    <div class="members-container">
+      <!-- Group 1: Event Management Team (Core) -->
+      <div class="members-group">
+        <h3 class="group-title">Event Management Team (Core)</h3>
+        <div class="members-grid">
+          <div class="member-card">
+            <span class="name">Saanchi Vyas</span>
+            <span class="role">Club Coordinator</span>
+          </div>
+
+          <div class="member-card">
+            <span class="name">Adithya P Vishwamitra</span>
+            <span class="role">Club and Finance Coordinator</span>
+          </div>
+
+          <div class="member-card">
+            <span class="name">Yatra</span>
+            <span class="role">Social Media Coordinator</span>
+          </div>
+
+          <div class="member-card">
+            <span class="name">Abheeksha</span>
+            <span class="role">Social Media Coordinator</span>
+          </div>
+
+          <div class="member-card">
+            <span class="name">Riya</span>
+            <span class="role">Technical Team Coordinator</span>
+          </div>
+
+          <div class="member-card">
+            <span class="name">Panag</span>
+            <span class="role">Liaisoning & Contact Coordinator</span>
+          </div>
+
+          <div class="member-card">
+            <span class="name">Chetan</span>
+            <span class="role">Secretary</span>
+          </div>
+
+          <div class="member-card">
+            <span class="name">Subhashini</span>
+            <span class="role">Design Team Coordinator</span>
+          </div>
+        </div>
       </div>
-      <div class="timeline fade-in-up">
-        <div class="step">
-          <div class="num">01</div>
-          <div class="step-content">
-            <h3>Design & Build</h3>
-            <p>Develop a lunar-capable rover designed to tackle challenges inspired by the Australian Space Agency's Civil Space Strategy.</p>
+
+      <!-- Group 2: Technical Team: Rover Team -->
+      <div class="members-group">
+        <h3 class="group-title">Technical Team: Rover Team</h3>
+        <div class="members-grid">
+          <div class="member-card">
+            <span class="name">Vasudev</span>
+            <span class="role">Robotics Lead</span>
+          </div>
+
+          <div class="member-card">
+            <span class="name">Adithya</span>
+            <span class="role">Perception Lead</span>
+          </div>
+
+          <div class="member-card">
+            <span class="name">Riya</span>
+            <span class="role">Rover Team Lead</span>
+          </div>
+
+          <div class="member-card">
+            <span class="name">Siddharth</span>
+            <span class="role">Chassis & Drivetrain Lead</span>
+          </div>
+
+          <div class="member-card">
+            <span class="name">Saanchi</span>
+            <span class="role">Powertrain Lead</span>
           </div>
         </div>
-        <div class="step">
-          <div class="num">02</div>
-          <div class="step-content">
-            <h3>Autonomous Traversal</h3>
-            <p>Implement semi- to fully autonomous traversal systems for navigating the simulated lunar terrain.</p>
+      </div>
+
+      <!-- Group 3: Technical Team: Research & Astronomy -->
+      <div class="members-group">
+        <h3 class="group-title">Technical Team: Research & Astronomy</h3>
+        <div class="members-grid">
+          <div class="member-card">
+            <span class="name">Abhiram Kashyap</span>
+            <span class="role">Radio Telescope & Radio Astronomy Lead</span>
           </div>
-        </div>
-        <div class="step">
-          <div class="num">03</div>
-          <div class="step-content">
-            <h3>In-Situ Resource Utilisation</h3>
-            <p>Develop practical skills and systems for lunar construction and resource gathering on the field.</p>
+
+          <div class="member-card">
+            <span class="name">Aprameya Kulkarni</span>
+            <span class="role">Optical Telescope Lead</span>
           </div>
-        </div>
-        <div class="step">
-          <div class="num">04</div>
-          <div class="step-content">
-            <h3>Iterative Adaptation</h3>
-            <p>Troubleshoot, adapt, and improve designs overnight to overcome the escalating challenges of the following day.</p>
+
+          <div class="member-card">
+            <span class="name">Varsha V Kumar</span>
+            <span class="role">Data Analytics Lead</span>
+          </div>
+
+          <div class="member-card">
+            <span class="name">Rashmika Roshan</span>
+            <span class="role">Simulation Lead</span>
+          </div>
+
+          <div class="member-card">
+            <span class="name">Madhvesh Bharadwaj</span>
+            <span class="role">Research Lead</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="contact">
-    <div class="wrap">
-      <div class="section-head fade-in-up">
-        <div class="eyebrow">05 · Contact</div>
-        <h2>Let's build what explores next.</h2>
-      </div>
-      <div class="contact-grid fade-in-up">
-        <div class="card">
-          <h3 style="font-family: 'Outfit'; font-size: 24px; margin-bottom: 24px;">Point of Contact</h3>
-          <div class="poc-list">
-            <div class="poc-card"><strong>Adithya P Vishwamitra</strong><small>7892073245</small></div>
-            <div class="poc-card"><strong>Saanchi Vyas</strong><small>99255 99117</small></div>
-            <div class="poc-card"><strong>Riya A Pawar</strong><small>97312 95721</small></div>
-            <div class="poc-card"><strong>Siddharth Mahadevan</strong><small>91486 46630</small></div>
-          </div>
-        </div>
-        <div class="card" style="display: flex; flex-direction: column; justify-content: center;">
-          <h3 style="font-family: 'Outfit'; font-size: 24px; margin-bottom: 16px;">Connect with us</h3>
-          <p class="muted" style="margin-bottom: 24px;">For sponsorship discussions, technical support, or partnership enquiries, please reach out to our team.</p>
-          <a href="mailto:singularity.bmsce@gmail.com" class="btn btn-primary" style="align-self: flex-start; margin-bottom: 16px;">Email singularity.bmsce@gmail.com</a>
-          <div style="display: flex; gap: 16px; margin-top: auto;">
-            <a href="https://www.instagram.com/singularity_bmsce/" target="_blank" class="muted" style="text-decoration: underline;">Instagram</a>
-            <a href="https://www.linkedin.com/company/78865505/" target="_blank" class="muted" style="text-decoration: underline;">LinkedIn</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
+  <!-- Footer -->
+  <footer>
+    SINGULARITY · BMSCE · THE ASTRONOMICAL SOCIETY
+  </footer>
 
-<footer>
-  <div class="wrap">
-    <p>SINGULARITY · BMSCE &nbsp;·&nbsp; Australian Rover Challenge &nbsp;·&nbsp; Sponsorship Prospectus</p>
-  </div>
-</footer>
-
-<script>
-  // Package selection logic
-  const packagesData = {
-    orbital: {
-      color: 'var(--gold)',
-      features: [
-        'Largest logo on rover, GUI, apparel, merchandise, presentations, posters & all eligible spaces',
-        'Branding across events & promotional materials',
-        'Custom promotions (products, services & initiatives)',
-        'Monthly magazine recognition (12 months, ~500 readers/month)',
-        '3 promotional reels + 1 social media post',
-        '1 LinkedIn post & 1 YouTube video (introducing your company)',
-        'Banner & merchandise at all events',
-        'Invitations to all 2026-27 events & team meetings',
-        '3-day company-inspired workshop at BMSCE',
-        '20-25 min sponsor segment at Rover Night',
-        'Conference posters & presentations',
-        'Oral acknowledgement at paper presentations'
-      ]
-    },
-    deepspace: {
-      color: 'var(--blue)',
-      features: [
-        'Large logo on rover, GUI, apparel, merchandise, presentations & posters',
-        'Branding across promotional materials',
-        'Monthly magazine recognition (6 months, ~500 readers/month)',
-        '2 promotional reels + 1 social media post & 1 LinkedIn post',
-        'Small banner at all events',
-        'Invitations to all 2026-27 events & team meetings',
-        '1-day company-inspired workshop at BMSCE',
-        '15 min sponsor segment at Rover Night',
-        'Conference posters & presentations',
-        'Oral acknowledgement at paper presentations'
-      ]
-    },
-    lunar: {
-      color: 'var(--cyan)',
-      features: [
-        'Medium logo on rover, GUI, apparel, merchandise, presentations & posters',
-        '1 promotional reel',
-        'Magazine recognition (3 months)',
-        'Invitations to all 2026-27 events & team meetings',
-        '10 min sponsor segment at Rover Night',
-        'Conference posters & presentations',
-        'Oral acknowledgement at paper presentations'
-      ]
-    },
-    asteroid: {
-      color: 'var(--violet)',
-      features: [
-        'Medium logo on rover, apparel, merchandise & select promotional materials',
-        '1 social media post',
-        'Magazine recognition (1 month)',
-        'Invitations to all 2026-27 events & team meetings',
-        '3 min sponsor segment at Rover Night',
-        'Acknowledgement in selected presentations'
-      ]
-    },
-    explorer: {
-      color: 'var(--red)',
-      features: [
-        'Standard logo on rover',
-        'Group feature post on social media',
-        'Invitations to all major events',
-        'Acknowledgement during events & presentations',
-        '1 min sponsor acknowledgement at Rover Night',
-        'Name in selected promotional material'
-      ]
-    },
-    supporting: {
-      color: 'var(--white)',
-      features: [
-        'Group feature post on social media',
-        'Name in selected promotional material',
-        'Invitations to all major events',
-        'Acknowledgement during Rover Night',
-        'Recognised as a Supporting Partner of our rover initiative'
-      ]
-    }
-  };
-
-  const cards = document.querySelectorAll('.package');
-  const detail = document.getElementById('packageDetail');
-  
-  function updateDetail(card) {
-    const tier = card.dataset.tier;
-    const name = card.dataset.name;
-    const price = card.dataset.price;
-    const desc = card.dataset.desc;
-    const data = packagesData[tier];
-    
-    let featuresHtml = '';
-    data.features.forEach(f => {
-      featuresHtml += `<li>${f}</li>`;
-    });
-
-    detail.innerHTML = `
-      <div class="detail-header" style="border-bottom-color: ${data.color}">
-        <h3 style="color: ${data.color}; font-family: 'Outfit'; font-weight: 800; text-transform: uppercase;">${name}</h3>
-        <div class="price" style="color: ${data.color}">${price}</div>
-      </div>
-      <div class="detail-content">${desc}</div>
-      <ul class="detail-features">
-        ${featuresHtml}
-      </ul>
-    `;
-  }
-
-  // Initialize with first card
-  updateDetail(cards[0]);
-
-  cards.forEach(card => {
-    card.addEventListener('click', () => {
-      cards.forEach(c => c.classList.remove('active'));
-      card.classList.add('active');
-      
-      // Animate detail container
-      detail.style.opacity = '0';
-      detail.style.transform = 'translateY(10px)';
-      
-      setTimeout(() => {
-        updateDetail(card);
-        detail.style.transition = 'all 0.4s ease';
-        detail.style.opacity = '1';
-        detail.style.transform = 'translateY(0)';
-      }, 200);
-    });
-  });
-
-  // Intersection Observer for scroll animations
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.fade-in-up').forEach(el => {
-    observer.observe(el);
-  });
-</script>
+  <script src="main.js" defer></script>
 </body>
 </html>
